@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
   var apiRoot = 'http://localhost:8080/v1/tasks/';
   var datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
@@ -31,7 +31,7 @@ $(document).ready(function() {
     var requestUrl = apiRoot;
 
     $.ajax({
-      url: requestUrl,
+      url: 'http://localhost:8080/v1/tasks/',
       method: 'GET',
       success: handleDatatableRender
     });
@@ -42,7 +42,7 @@ $(document).ready(function() {
     var taskId = parentEl.attr('data-task-id');
     var taskTitle = parentEl.find('[data-task-name-input]').val();
     var taskContent = parentEl.find('[data-task-content-input]').val();
-    var requestUrl = apiRoot + 'updateTask';
+    var requestUrl = apiRoot;
 
     $.ajax({
       url: requestUrl,
@@ -66,12 +66,10 @@ $(document).ready(function() {
   function handleTaskDeleteRequest() {
     var parentEl = $(this).parent().parent();
     var taskId = parentEl.attr('data-task-id');
-    var requestUrl = apiRoot + 'deleteTask';
+    var requestUrl = apiRoot;
 
     $.ajax({
-      url: requestUrl + '/?' + $.param({
-        taskId: taskId
-      }),
+      url: requestUrl + taskId,
       method: 'DELETE',
       success: function() {
         parentEl.slideUp(400, function() { parentEl.remove(); });
@@ -85,7 +83,7 @@ $(document).ready(function() {
     var taskTitle = $(this).find('[name="title"]').val();
     var taskContent = $(this).find('[name="content"]').val();
 
-    var requestUrl = apiRoot + 'createTask';
+    var requestUrl = apiRoot;
 
     $.ajax({
       url: requestUrl,
@@ -98,7 +96,7 @@ $(document).ready(function() {
         content: taskContent
       }),
       complete: function(data) {
-        if(data.status === 200) {
+        if(data.status === 201) {
           getAllTasks();
         }
       }
